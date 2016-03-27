@@ -99,7 +99,7 @@ SubAcc <- cbind(DataSubject, DataActivity)
 DT <- cbind (SubAcc,DT)
 ```
 
-#2 Merges the training and the test sets to create one data set.
+##2 Merges the training and the test sets to create one data set.
 
 Getting the columns with the Mean and STD
 ```
@@ -111,7 +111,7 @@ Extracting columns from MeanStdCol from the DT table
 ```
 DT <- DT[,MeanStdCol]
 ```
-#3 Uses descriptive activity names to name the activities in the data set
+##3 Uses descriptive activity names to name the activities in the data set
 
 Merge DT witht he ActivityLabel by the ActivityIndex Column. The Activy Type is added at the right end of the table.
 ```
@@ -121,7 +121,7 @@ DT <- merge(DT,
             all.x=TRUE)
 ```
 
-#4 Appropriately labels the data set with descriptive variable names.
+##4 Appropriately labels the data set with descriptive variable names.
 
 Using regex to change names for more descriptive values
 - std() for SD
@@ -143,7 +143,7 @@ names(DT) <- gsub("Gyro","gyroscope", names(DT))
 names(DT) <- gsub("Mag","magnitude", names(DT))
 names(DT) <- gsub("BodyBody","body", names(DT))
 ```
-#5 From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+##5 From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 ```
 finalData = aggregate(DT[,names(DT) != c('ActivityIndex','SubjectIndex','ActvityType')],
                      by=list(ActivityIndex=DT$ActivityIndex,
