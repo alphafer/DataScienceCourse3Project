@@ -105,5 +105,5 @@ finalData = aggregate(DT[,names(DT) != c('ActivityIndex','SubjectIndex','Actvity
 finalData[,88]<-NULL
 
 # Saving on disc in a comma-separated values CSV file
-write.table(tidyData,'./finalData.csv', row.names=FALSE, sep=',');
+write.table(finalData,'./finalData.csv', row.names=FALSE, sep=',');
 
