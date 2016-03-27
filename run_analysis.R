@@ -1,6 +1,6 @@
-# 1.Merges the training and the test sets to create one data set.
+# Prep work
 
-# Deleting eviroment variable
+# Deleting environment variable
 rm(list=ls())
 
 # Create a folder all the working files 
@@ -20,6 +20,9 @@ unzip (zipfile="data.zip")
 library("dplyr",
         "data.table",
         "tidyr")
+
+
+# 1.Merges the training and the test sets to create one data set.
 
 # Extracting and labeling Train data
 SubjectTrain <- tbl_df(read.table(file.path("./UCI HAR Dataset/train","subject_train.txt")))
@@ -51,7 +54,7 @@ colnames (DT) <- Features$V2
 # Combining Subject tables by rows
 DataSubject <- rbind (SubjectTrain,SubjectTest)
 
-# Combining Activty tables by rows
+# Combining Activity tables by rows
 DataActivity <- rbind (YTrain,YTest)
 
 # Merging by columns
@@ -80,6 +83,8 @@ DT <- merge(DT,
 
 # 4. Appropriately labels the data set with descriptive variable names.
 
+# Using regex to change names for more descriptive values
+
 names(DT) <- gsub("std()","SD", names(DT))
 names(DT) <- gsub("mean()","MEAN", names(DT))
 names(DT) <- gsub("^t","time", names(DT))
@@ -96,7 +101,7 @@ finalData = aggregate(DT[,names(DT) != c('ActivityIndex','SubjectIndex','Actvity
                              SubjectIndex = DT$SubjectIndex,
                              ActivityType = DT$ActivityType),
                      mean)
-# Deleting the extracolumn
+# Deleting the extra column
 finalData[,88]<-NULL
 
 # Saving on disc in a comma-separated values CSV file
