@@ -16,14 +16,40 @@ library("dplyr",
         "data.table",
         "tidyr")
 
-# Extracting Train data
+# Extracting and labeling Train data
 SubjectTrain <- tbl_df(read.table(file.path("./UCI HAR Dataset/train","subject_train.txt")))
-ActivityTrain <- tbl_df(read.table(file.path("./UCI HAR Dataset/train","Y_train.txt")))
-Train <- tbl_df(read.table(file.path("./UCI HAR Dataset/train","X_train.txt")))
+colnames (SubjectTrain) <- "SubjectIndex"
+YTrain <- tbl_df(read.table(file.path("./UCI HAR Dataset/train","Y_train.txt")))
+colnames (YTrain) <- "ActivityIndex"
+XTrain <- tbl_df(read.table(file.path("./UCI HAR Dataset/train","X_train.txt")))
 
-# Extracting Test data
+# Extracting and labeling Test data
 SubjectTest <- tbl_df(read.table(file.path("./UCI HAR Dataset/test","subject_test.txt")))
-ActivityTest <- tbl_df(read.table(file.path("./UCI HAR Dataset/test","Y_test.txt")))
-Test <- tbl_df(read.table(file.path("./UCI HAR Dataset/test","X_test.txt")))
+colnames (SubjectTest) <- "SubjectIndex"
+YTest <- tbl_df(read.table(file.path("./UCI HAR Dataset/test","Y_test.txt")))
+colnames (YTest) <- "ActivityIndex"
+XTest <- tbl_df(read.table(file.path("./UCI HAR Dataset/test","X_test.txt")))
 
+# Extracting Features data
+Features <- tbl_df(read.table(file.path("./UCI HAR Dataset","features.txt")))
+
+# Extracting and labeling Activity Labels data
+ActivityLabels <- tbl_df(read.table(file.path("./UCI HAR Dataset","activity_labels.txt")))
+colnames (ActivityLabels) <- c ('ActivityId','ActivityType')
+
+# Binding Train and Test data
+DT <- rbind (XTrain, XTest)
+
+# Setting the column name using the seocnd column of the Features data.frame
+colnames (DT) <- Features$V2
+
+# Combining Subject tables by rows
+DataSubject <- rbind (SubjectTrain,SubjectTest)
+
+# Combining Activty tables by rows
+DataActivity <- rbind (YTrain,YTest)
+
+# Merging by columns
+SubAcc <- cbind(DataSubject, DataActivity)
+DT <- cbind (SubAcc,DT)
 
